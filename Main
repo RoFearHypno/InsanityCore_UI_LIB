@@ -53,10 +53,18 @@ InsanityCore.Styles = {
 		},
 		["UIStroke"] = {
 			["IcMainBorderStroke"] = {
-				["Color"] = Color3.fromRGB(80,80,80)
+				["Color"] = Color3.fromRGB(0,0,0)
 			},
+			["IcTitleTextStroke"] = {
+				["Transparency"] = 0.3
+			}
 			--["_default"] = {}
-		}
+		},
+		["TextLabel"] = {
+			["IcTitle"] = {
+				["Font"] = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			}
+		},
 	},
 	White = {},
 }
@@ -141,10 +149,18 @@ function InsanityCore:Create(Style: string | nil | {}, Settings: {})
 	local IcMain = New("Frame", "IcMain", Gui)
 	IcMain.Position = UDim2.fromScale(0.5, 0.5)
 	IcMain.AnchorPoint = Vector2.new(0.5, 0.5)
-	IcMain.Size = UDim2.new(0.35, 0, 0.5, 0)
+	IcMain.Size = UDim2.new(0.4, 0, 0.625, 0)
 	local IcMainBorderStroke = New("UIStroke", "IcMainBorderStroke", IcMain)
 	IcMainBorderStroke.Thickness = 2
-	
+	IcMainBorderStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	local IcMainUICorner = New("UICorner", "IcMainUICorner", IcMain)
+	IcMainUICorner.CornerRadius = UDim.new(0.03, 0)
+	local IcTitle = New("TextLabel", "IcTitle", IcMain)
+	IcTitle.Size = UDim2.fromScale(1, 0.1)
+	IcTitle.Position = UDim2.fromScale(0.015, -0.1)
+	IcTitle.BackgroundTransparency = 1
+	local IcTitleTextStroke = New("UIStroke", "IcTitleTextStroke", IcTitle)
+	IcTitleTextStroke.Thickness = 1.5
 	ApplyStyleTo(Gui, Style)
 end
 
