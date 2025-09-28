@@ -132,8 +132,9 @@ function InsanityCore:Create(Style: string | nil | {})
 	local Gui = New("ScreenGui", "InsanityCoreUiObject", CoreGui)
 	InsanityCore.Instance = Gui
 	local IcMain = New("Frame", "IcMain", Gui)
-	IcMain.Position = UDim2.fromScale(0.5,0.5)
-	IcMain.Size = UDim2.new(0.6,0,0.5,0)
+	IcMain.Position = UDim2.fromScale(0.5, 0.5)
+	IcMain.AnchorPoint = Vector2.new(0.5, 0.5)
+	IcMain.Size = UDim2.new(0.6, 0, 0.5, 0)
 	local IcMainBorderStroke = New("UIStroke", "IcMainBorderStroke", IcMain)
 	IcMainBorderStroke.Thickness = 2
 	
