@@ -165,6 +165,8 @@ function InsanityCore:Create(Style: string | nil | {}, Settings: {})
 	IcTitle.Position = UDim2.fromScale(0.015, -0.1)
 	IcTitle.BackgroundTransparency = 1
 	IcTitle.TextSize = 30
+	IcTitle.TextXAlignment = Enum.TextXAlignment.Left
+	IcTitle.TextYAlignment = Enum.TextYAlignment.Bottom
 	
 	local IcTitleTextStroke = New("UIStroke", "IcTitleTextStroke", IcTitle)
 	IcTitleTextStroke.Thickness = 1.5
@@ -179,7 +181,7 @@ end
 -- Primarily used during testing --
 function InsanityCore:ClearAllInstances()
 	for Index, Gui in CoreGui:GetChildren() do
-		if string.find(Gui.Name, "InsanityHubInstance") then
+		if string.find(Gui.Name, "InsanityCoreUiObject") then
 			Gui:Destroy()
 		end
 	end
