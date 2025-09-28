@@ -176,6 +176,15 @@ end
 	
 --end
 
+-- Primarily used during testing --
+function InsanityCore:ClearAllInstances()
+	for Index, Gui in CoreGui:GetChildren() do
+		if string.find(Gui.Name, "InsanityHubInstance") then
+			Gui:Destroy()
+		end
+	end
+end
+
 function InsanityCore:Destroy()
 	if InsanityCore.Instance ~= nil then
 		InsanityCore.Instance:Destroy()
