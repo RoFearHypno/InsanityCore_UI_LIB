@@ -82,7 +82,7 @@ end
 function Prompt(PromptData: {})
 	-- to be made with gui later :)
 	if PromptData["type"] == "Message" then
-		warn(PromptData["Title"], ":", PromptData["Error"], ": Icon Provided:", PromptData["Icon"])
+		warn(PromptData["Title"], ":", PromptData["Description"], ": Icon Provided:", PromptData["Icon"])
 	else
 		warn(`Internal error whilst prompting. Type provided: {PromptData["type"] or "nil"}`)
 	end
@@ -97,7 +97,7 @@ function InsanityCore:Create(Style: string | nil | {})
 		for Name, StyleData in InsanityCore.Styles do
 			if Name == Style then Style = StyleData end
 		end
-	elseif typeof(Style) ~= "string" or typeof(Style) ~= "table" then
+	elseif typeof(Style) ~= "string" and typeof(Style) ~= "table" then
 		Prompt({
 			["type"] = "Message",
 			["Title"] = "Failed to create an instance of InsanityCore!",
