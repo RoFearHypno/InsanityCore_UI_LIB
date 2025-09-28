@@ -203,12 +203,8 @@ end
 function Methods:Toggle(Bool)
 	local Gui = InsanityCore.Instance
 	--local IcMain = Gui.IcMain
-	if Bool == nil then
-		Gui.Enabled = not Gui.Enabled
-	elseif typeof(Bool) == "boolean" then
-		warn(tostring(Bool))
-		Gui.Enabled = Bool
-	end
+	warn(Bool)
+	Gui.Enabled = Bool or not Gui.Enabled
 end
 
 -- Primarily used during testing --
