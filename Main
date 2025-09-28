@@ -10,6 +10,7 @@
 	:NewStyle(StyleData: {})
 
 	:Create(Style: {}): GUI
+	:Destroy()
 	
 	:GetTitle(): TextLabel (guititle)
 	:SetTitle(string)
@@ -19,12 +20,12 @@
 
 
 -- / Services \ --
+local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 -- \          / --
 
 -- / Variables \ --
 local Client = Players.LocalPlayer
-local ClientGui = Client:WaitForChild("PlayerGui")
 
 local InsanityCore = {}
 InsanityCore.Instance = nil
@@ -39,6 +40,11 @@ InsanityCore.Styles = {
 	}
 	]]
 	Dark = {
+		["ScreenGui"] = {
+			["_default"] = {
+				["IgnoreGuiInset"] = true
+			}
+		},
 		["Frame"] = {
 			["IcMain"] = {
 				["BackgroundColor3"] = Color3.fromRGB(32,32,32)
@@ -64,7 +70,7 @@ InsanityCore.Settings = {
 -- * SELF FUNCTIONS * --
 
 function ApplyStyleTo(Element, Style)
-	local Elements = Element:GetChildren()
+	local Elements = Element:GetDescendants()
 	table.insert(Elements, Element)
 	for _, Object in Elements do
 		local StyleData = Style[Object.ClassName]
@@ -111,7 +117,38 @@ function InsanityCore:Create(Style: string | nil | {})
 		return
 	end
 	
-	warn("made it here")
+	-- Checking if there is another instance of InstanityCore
+	if InsanityCore.Instance ~= nil then
+		InsanityCore.Instance:Destroy()
+	end
+	
+	-- Creation Process
+	local function New(ClassType: string, Name: string, Parent: Instance): Instance
+		local NewInstance = Instance.new(ClassType, Parent)
+		NewInstance.Name = Name
+		return NewInstance
+	end
+	
+	local Gui = New("ScreenGui", "InsanityCoreUiObject", CoreGui)
+	InsanityCore.Instance = Gui
+	local IcMain = New("Frame", "IcMain", Gui)
+	IcMain.Position = UDim2.fromScale(0.5,0.5)
+	IcMain.Size = UDim2.new(0.6,0,0.5,0)
+	local IcMainBorderStroke = New("UIStroke", "IcMainBorderStroke", IcMain)
+	IcMainBorderStroke.Thickness = 2
+	
+	ApplyStyleTo(Gui, Style)
+end
+
+--function InsanityCore:Open()
+	
+--end
+
+function InsanityCore:Destroy()
+	if InsanityCore.Instance ~= nil then
+		InsanityCore.Instance:Destroy()
+		InsanityCore.Instance = nil
+	end
 end
 
 return InsanityCore
