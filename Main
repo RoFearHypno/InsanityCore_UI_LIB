@@ -200,7 +200,7 @@ function Methods:SetTitle(Title: string)
 	return Methods
 end
 
-function InsanityCore:Toggle(Bool)
+function Methods:Toggle(Bool)
 	local Gui = InsanityCore.Instance
 	--local IcMain = Gui.IcMain
 	if Bool == nil then
@@ -219,7 +219,7 @@ function InsanityCore:ClearAllInstances()
 	end
 end
 
-function InsanityCore:Destroy()
+function Methods:Destroy()
 	if InsanityCore.Instance ~= nil then
 		InsanityCore.Instance:Destroy()
 		InsanityCore.Instance = nil
