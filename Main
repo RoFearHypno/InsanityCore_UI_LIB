@@ -91,13 +91,17 @@ end
 -- * GLOBAL FUNCTIONS * --
 
 function InsanityCore:Create(Style: string | nil | {})
-	if Style == nil and InsanityCore.Settings.DefaultStyle ~= nil then
+	-- Checks that will make the Style, and actual style
+	if Style == nil then
 		Style = InsanityCore.Settings.DefaultStyle
 	elseif typeof(Style) == "string" then
 		for Name, StyleData in InsanityCore.Styles do
 			if Name == Style then Style = StyleData end
 		end
-	elseif Style == nil or (typeof(Style) ~= "string" and typeof(Style) ~= "table") then
+	end
+	
+	-- Just incase that the first set of checks didn't work because of invalid arguments.
+	if Style == nil or typeof(Style) == "string" or typeof(Style) ~= "table" then
 		Prompt({
 			["type"] = "Message",
 			["Title"] = "Failed to create an instance of InsanityCore!",
@@ -106,6 +110,7 @@ function InsanityCore:Create(Style: string | nil | {})
 		})
 		return
 	end
+	
 	warn("made it here")
 end
 
