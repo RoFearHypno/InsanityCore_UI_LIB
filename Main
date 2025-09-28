@@ -28,6 +28,7 @@ local Players = game:GetService("Players")
 local Client = Players.LocalPlayer
 
 local InsanityCore = {}
+local Methods = {}
 InsanityCore.Instance = nil
 InsanityCore.Styles = {
 	--[[
@@ -174,11 +175,40 @@ function InsanityCore:Create(Style: string | nil | {}, Settings: {})
 	IcTitleTextStroke.Thickness = 1.5
 	
 	ApplyStyleTo(Gui, Style)
+	
+	return Methods
 end
 
---function InsanityCore:Open()
+function Methods:CreateTab(TabData: {})
+	--local Gui = InsanityCore.Instance
+	--return Methods
+end
+
+function Methods:DestroyTab(Identifier: string)
 	
---end
+end
+
+function Methods:GetTab(Identifier: string)
+	
+end
+
+function Methods:SetTitle(Title: string)
+	local Gui = InsanityCore.Instance
+	local IcMain = Gui.IcMain
+	local IcTitle = IcMain.IcTitle
+	IcTitle.Text = Title
+	return Methods
+end
+
+function InsanityCore:Toggle(Bool)
+	local Gui = InsanityCore.Instance
+	--local IcMain = Gui.IcMain
+	if Bool == nil then
+		Gui.Enabled = not Gui.Enabled
+	elseif typeof(Bool) == "boolean" then
+		Gui.Enabled = Bool
+	end
+end
 
 -- Primarily used during testing --
 function InsanityCore:ClearAllInstances()
