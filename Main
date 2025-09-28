@@ -63,7 +63,7 @@ InsanityCore.Styles = {
 		["TextLabel"] = {
 			["IcTitle"] = {
 				["TextColor3"] = Color3.fromRGB(255, 255, 255),
-				["Font"] = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+				["FontFace"] = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
 			}
 		},
 	},
@@ -94,6 +94,7 @@ function ApplyStyleTo(Element, Style)
 			local SpecificData = StyleData[Object.Name] or StyleData["_default"] or {}
 			for Property, Value in SpecificData do
 				if Object[Property] then
+					warn(Property)
 					Object[Property] = Value
 				end
 			end
@@ -167,6 +168,7 @@ function InsanityCore:Create(Style: string | nil | {}, Settings: {})
 	IcTitle.TextSize = 30
 	IcTitle.TextXAlignment = Enum.TextXAlignment.Left
 	IcTitle.TextYAlignment = Enum.TextYAlignment.Bottom
+	IcTitle.TextWrapped = false
 	
 	local IcTitleTextStroke = New("UIStroke", "IcTitleTextStroke", IcTitle)
 	IcTitleTextStroke.Thickness = 1.5
