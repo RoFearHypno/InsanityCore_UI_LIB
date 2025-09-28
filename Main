@@ -1,0 +1,112 @@
+--[[
+	DOCUMENTATION:
+	* MOST FUNCTIONS SHOULD RETURN A INSANITYCORE GUI INSTANCE!
+	* A LIMIT OF ONE GUI INSTANCE OF INSANITYCORE AT A TIME!
+
+	STYLES:
+		Dark
+		Light
+		
+	:NewStyle(StyleData: {})
+
+	:Create(Style: {}): GUI
+	
+	:GetTitle(): TextLabel (guititle)
+	:SetTitle(string)
+
+]]
+
+
+
+-- / Services \ --
+local Players = game:GetService("Players")
+-- \          / --
+
+-- / Variables \ --
+local Client = Players.LocalPlayer
+local ClientGui = Client:WaitForChild("ClientGui")
+
+local InsanityCore = {}
+InsanityCore.Instance = nil
+InsanityCore.Styles = {
+	--[[
+	Example = {
+		ex.. ["type"] = {
+			["name_here"] = {
+			}
+			["_default"] = {} -- only include when you have a general style for the classtype
+		}
+	}
+	]]
+	Dark = {
+		["Frame"] = {
+			["IcMain"] = {
+				["BackgroundColor3"] = Color3.fromRGB(32,32,32)
+			},
+			--["_default"] = {}
+		},
+		["UIStroke"] = {
+			["IcMainBorderStroke"] = {
+				["Color"] = Color3.fromRGB(80,80,80)
+			},
+			--["_default"] = {}
+		}
+	},
+	White = {},
+}
+InsanityCore.Settings = {
+	DefaultStyle = InsanityCore.Styles.Dark
+}
+-- \           / --
+
+-- / Functionality \ --
+
+-- * SELF FUNCTIONS * --
+
+function ApplyStyleTo(Element, Style)
+	local Elements = Element:GetChildren()
+	table.insert(Elements, Element)
+	for _, Object in Elements do
+		local StyleData = Style[Object.ClassName]
+		if StyleData then
+			local SpecificData = StyleData[Object.Name] or StyleData["_default"] or {}
+			for Property, Value in SpecificData do
+				if Object[Property] then
+					Object[Property] = Value
+				end
+			end
+		end
+	end
+end
+
+function Prompt(PromptData: {})
+	-- to be made with gui later :)
+	if PromptData["type"] == "Message" then
+		warn(PromptData["Title"], ":", PromptData["Error"], ": Icon Provided:", PromptData["Icon"])
+	else
+		warn(`Internal error whilst prompting. Type provided: {PromptData["type"] or "nil"}`)
+	end
+end
+
+-- * GLOBAL FUNCTIONS * --
+
+function InsanityCore:Create(Style: string | nil | {})
+	if Style == nil then
+		Style = InsanityCore.Settings.DefaultStyle
+	elseif typeof(Style) == "string" then
+		for Name, StyleData in InsanityCore.Styles do
+			if Name == Style then Style = StyleData end
+		end
+	elseif typeof(Style) ~= "string" or typeof(Style) ~= "table" then
+		Prompt({
+			["type"] = "Message",
+			["Title"] = "Failed to create an instance of InsanityCore!",
+			["Description"] = "Invalid parameters were provided into the creation function.",
+			["Icon"] = "Error",
+		})
+	end
+	warn("made it here")
+end
+
+return InsanityCore
+-- \               / --
