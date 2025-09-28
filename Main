@@ -24,7 +24,7 @@ local Players = game:GetService("Players")
 
 -- / Variables \ --
 local Client = Players.LocalPlayer
-local ClientGui = Client:WaitForChild("ClientGui")
+local ClientGui = Client:WaitForChild("PlayerGui")
 
 local InsanityCore = {}
 InsanityCore.Instance = nil
