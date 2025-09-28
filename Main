@@ -61,7 +61,14 @@ InsanityCore.Styles = {
 	White = {},
 }
 InsanityCore.Settings = {
-	DefaultStyle = InsanityCore.Styles.Dark
+	DefaultStyle = InsanityCore.Styles.Dark,
+	Create = {
+		Loading = {
+			Loads = false,
+			LoadTime = 10,
+			LoadIcon = ""
+		}
+	},
 }
 -- \           / --
 
@@ -96,7 +103,7 @@ end
 
 -- * GLOBAL FUNCTIONS * --
 
-function InsanityCore:Create(Style: string | nil | {})
+function InsanityCore:Create(Style: string | nil | {}, Settings: {})
 	-- Checks that will make the Style, and actual style
 	if Style == nil then
 		Style = InsanityCore.Settings.DefaultStyle
