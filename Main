@@ -91,19 +91,20 @@ end
 -- * GLOBAL FUNCTIONS * --
 
 function InsanityCore:Create(Style: string | nil | {})
-	if Style == nil then
+	if Style == nil and InsanityCore.Settings.DefaultStyle ~= nil then
 		Style = InsanityCore.Settings.DefaultStyle
 	elseif typeof(Style) == "string" then
 		for Name, StyleData in InsanityCore.Styles do
 			if Name == Style then Style = StyleData end
 		end
-	elseif typeof(Style) ~= "string" and typeof(Style) ~= "table" then
+	elseif Style == nil or (typeof(Style) ~= "string" and typeof(Style) ~= "table") then
 		Prompt({
 			["type"] = "Message",
 			["Title"] = "Failed to create an instance of InsanityCore!",
 			["Description"] = "Invalid parameters were provided into the creation function.",
 			["Icon"] = "Error",
 		})
+		return
 	end
 	warn("made it here")
 end
