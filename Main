@@ -220,7 +220,7 @@ function Methods:CreateTab(TabData: {})
 		return 
 	end
 	
-	local Gui = self.Instance
+	local Gui = InsanityCore.Instance
 	local IcMain = Gui:WaitForChild("IcMain")
 	local TabFramesFolder = IcMain:WaitForChild("TabFrames")
 	local TabButtonsHolder = IcMain:WaitForChild("TabButtonsHolder")
