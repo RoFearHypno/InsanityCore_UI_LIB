@@ -30,6 +30,7 @@ local Client = Players.LocalPlayer
 local InsanityCore = {}
 local Methods = {}
 InsanityCore.Instance = nil
+InsanityCore.CurrentTabs = {}
 InsanityCore.Styles = {
 	--[[
 	Example = {
@@ -58,15 +59,31 @@ InsanityCore.Styles = {
 			},
 			["IcTitleTextStroke"] = {
 				["Transparency"] = 0.3
-			}
+			},
+			["TabButtonBorderStroke"] = {
+				["Thickness"] = 1.5,
+				["Color"] = Color3.fromRGB(20, 20, 20)
+			},
 			--["_default"] = {}
 		},
 		["TextLabel"] = {
 			["IcTitle"] = {
 				["TextColor3"] = Color3.fromRGB(255, 255, 255),
 				["FontFace"] = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-			}
+			},
+			["TabName"] = {
+				["TextColor3"] = Color3.fromRGB(255, 255, 255),
+				["FontFace"] = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			},
 		},
+		["UIListLayout"] = {
+			["TabButtonsULL"] = {
+				["Padding"] = UDim.new(0.015, 0),
+			},
+		},
+		--["UICorner"] = {
+			
+		--},
 	},
 	White = {},
 }
@@ -174,6 +191,22 @@ function InsanityCore:Create(Style: string | nil | {}, Settings: {})
 	local IcTitleTextStroke = New("UIStroke", "IcTitleTextStroke", IcTitle)
 	IcTitleTextStroke.Thickness = 1.5
 	
+	local TabButtonsHolder = New("ScrollingFrame", "TabButtonsHolder", IcMain)
+	TabButtonsHolder.BackgroundTransparency = 1
+	TabButtonsHolder.AnchorPoint = Vector2.new(0.5,0)
+	TabButtonsHolder.Position = UDim2.fromScale(0.5, 0.02)
+	TabButtonsHolder.Size = UDim2.fromScale(0.98, 0.07)
+	TabButtonsHolder.ScrollBarImageTransparency = 1
+	TabButtonsHolder.ScrollingDirection = Enum.ScrollingDirection.X
+	TabButtonsHolder.AutomaticCanvasSize = Enum.AutomaticSize.X
+	TabButtonsHolder.ClipsDescendants = false
+	
+	local TabButtonsUIListLayout = New("UIListLayout", "TabButtonsULL", TabButtonsHolder)
+	TabButtonsUIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
+	TabButtonsUIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+	
+	local TabFramesFolder = New("Folder", "TabFrames", IcMain)
+	
 	ApplyStyleTo(Gui, Style)
 	
 	return Methods
@@ -187,6 +220,11 @@ function Methods:CreateTab(TabData: {})
 		return 
 	end
 	
+	local Gui = self.Instance
+	local IcMain = Gui:WaitForChild("IcMain")
+	local TabFramesFolder = IcMain:WaitForChild("TabFrames")
+	local TabButtonsHolder = IcMain:WaitForChild("TabButtonsHolder")
+	
 	-- Creation Process
 	local function New(ClassType: string, Name: string, Parent: Instance): Instance
 		local NewInstance = Instance.new(ClassType, Parent)
@@ -194,8 +232,40 @@ function Methods:CreateTab(TabData: {})
 		return NewInstance
 	end
 	
-	--local Tab = New("Frame", TabData["Indentifier"], )
+	local TabButton = New("TextButton", "TabButton", TabButtonsHolder)
+	TabButton:SetAttribute("Identifier", TabData["Identifier"])
+	TabButton.Size = UDim2.fromScale(0.15, 1)
+	TabButton.Text = ""
+	
+	local TabName = New("TextLabel", "TabName", TabButton)
+	TabName.Text = TabData["Text"]
+	TabName.TextScaled = true
+	TabName.Size = UDim2.fromScale(0.9, 0.9)
+	TabName.AnchorPoint = Vector2.new(0.5, 0.5)
+	TabName.Position = UDim2.fromScale(0.5, 0.5)
+	
+	local TabNameTextStroke = New("UIStroke", "TabNameTextStroke", TabName)
+	TabNameTextStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+	
+	local TabButtonBorderStroke = New("UIStroke", "TabButtonBorderStroke", TabButton)
+	TabButtonBorderStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	
+	local TabButtonUICorner = New("UICorner", "TabButtonUICorner", TabButton)
+	TabButtonUICorner.CornerRadius = UDim.new(1, 0)
+	
+	-- Tab Frame
+	
+	local TabFrame = New("Frame", "TabFrame", TabFramesFolder)
+	TabFrame.Size = UDim2.fromScale(1, 0.9)
+	TabFrame.Position = UDim2.fromScale(0.5, 0.1)
+	TabFrame.AnchorPoint = Vector2.new(0.5, 0)
+	
+	self.CurrentTabs[TabData["Identifier"]] = {["TabButton"] = TabButton, ["TabFrame"] = TabFrame}	
+	
+	
+	--local TabFrame = New("Frame")
 	local TabMethods = {}
+	-- LATER (add more obviously)
 	function TabMethods:CreateButton(ButtonData: {})
 		
 	end
@@ -205,6 +275,14 @@ function Methods:CreateTab(TabData: {})
 	function TabMethods:CreateText(TextData: {})
 		
 	end
+	function TabMethods:ToggleFrame(Bool)
+		TabFrame.Visible = Bool or not TabFrame.Visible
+		return TabMethods
+	end
+end
+
+function Methods:ChangeIndentifier(Identifier: string, NewIdentifier: string)
+	
 end
 
 function Methods:DestroyTab(Identifier: string)
