@@ -182,6 +182,29 @@ end
 function Methods:CreateTab(TabData: {})
 	--local Gui = InsanityCore.Instance
 	--return Methods
+	
+	if not TabData["Identifier"] or not TabData["Text"] then 
+		return 
+	end
+	
+	-- Creation Process
+	local function New(ClassType: string, Name: string, Parent: Instance): Instance
+		local NewInstance = Instance.new(ClassType, Parent)
+		NewInstance.Name = Name
+		return NewInstance
+	end
+	
+	--local Tab = New("Frame", TabData["Indentifier"], )
+	local TabMethods = {}
+	function TabMethods:CreateButton(ButtonData: {})
+		
+	end
+	function TabMethods:CreateDivider(DividerData: {})
+		
+	end
+	function TabMethods:CreateText(TextData: {})
+		
+	end
 end
 
 function Methods:DestroyTab(Identifier: string)
@@ -205,7 +228,12 @@ function Methods:Toggle(Bool)
 	--local IcMain = Gui.IcMain
 	warn(Bool)
 	Gui.Enabled = Bool or not Gui.Enabled
+	return Methods
 end
+
+--function Methods:Wait()
+	
+--end
 
 -- Primarily used during testing --
 function InsanityCore:ClearAllInstances()
