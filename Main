@@ -30,6 +30,7 @@ local Client = Players.LocalPlayer
 local InsanityCore = {}
 local Methods = {}
 InsanityCore.Instance = nil
+InsanityCore.InstanceStyle = nil
 InsanityCore.CurrentTabs = {}
 InsanityCore.Styles = {
 	--[[
@@ -152,9 +153,12 @@ function InsanityCore:Create(Style: string | nil | {}, Settings: {})
 		return
 	end
 	
+	InsanityCore.InstanceStyle = Style
+	
 	-- Checking if there is another instance of InstanityCore
 	if InsanityCore.Instance ~= nil then
 		InsanityCore.Instance:Destroy()
+		InsanityCore.InstanceStyle = nil
 	end
 	
 	-- Creation Process
@@ -204,6 +208,7 @@ function InsanityCore:Create(Style: string | nil | {}, Settings: {})
 	local TabButtonsUIListLayout = New("UIListLayout", "TabButtonsULL", TabButtonsHolder)
 	TabButtonsUIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
 	TabButtonsUIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+	TabButtonsUIListLayout.FillDirection = Enum.FillDirection.Horizontal
 	
 	local TabFramesFolder = New("Folder", "TabFrames", IcMain)
 	
@@ -245,7 +250,6 @@ function Methods:CreateTab(TabData: {})
 	TabName.Position = UDim2.fromScale(0.5, 0.5)
 	
 	local TabNameTextStroke = New("UIStroke", "TabNameTextStroke", TabName)
-	TabNameTextStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
 	
 	local TabButtonBorderStroke = New("UIStroke", "TabButtonBorderStroke", TabButton)
 	TabButtonBorderStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -260,8 +264,9 @@ function Methods:CreateTab(TabData: {})
 	TabFrame.Position = UDim2.fromScale(0.5, 0.1)
 	TabFrame.AnchorPoint = Vector2.new(0.5, 0)
 	
-	self.CurrentTabs[TabData["Identifier"]] = {["TabButton"] = TabButton, ["TabFrame"] = TabFrame}	
+	InsanityCore.CurrentTabs[TabData["Identifier"]] = {["TabButton"] = TabButton, ["TabFrame"] = TabFrame}	
 	
+	ApplyStyleTo(Gui, InsanityCore.InstanceStyle)
 	
 	--local TabFrame = New("Frame")
 	local TabMethods = {}
