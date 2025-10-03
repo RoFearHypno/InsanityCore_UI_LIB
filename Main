@@ -82,6 +82,11 @@ InsanityCore.Styles = {
 				["Padding"] = UDim.new(0.015, 0),
 			},
 		},
+		["TextButton"] = {
+			["TabButton"] = {
+				["BackgroundColor3"] = Color3.fromRGB(60, 60, 60)
+			}
+		}
 		--["UICorner"] = {
 			
 		--},
@@ -250,6 +255,7 @@ function Methods:CreateTab(TabData: {})
 	TabName.Size = UDim2.fromScale(0.9, 0.9)
 	TabName.AnchorPoint = Vector2.new(0.5, 0.5)
 	TabName.Position = UDim2.fromScale(0.5, 0.5)
+	TabName.Transparency = 0
 	
 	local TabNameTextStroke = New("UIStroke", "TabNameTextStroke", TabName)
 	
