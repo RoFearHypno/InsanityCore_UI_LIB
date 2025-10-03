@@ -202,7 +202,7 @@ function InsanityCore:Create(Style: string | nil | {}, Settings: {})
 	TabButtonsHolder.Size = UDim2.fromScale(0.98, 0.07)
 	TabButtonsHolder.ScrollBarImageTransparency = 1
 	TabButtonsHolder.ScrollingDirection = Enum.ScrollingDirection.X
-	TabButtonsHolder.HorizontalScrollBar = Enum.ScrollBarInset.None
+	TabButtonsHolder.HorizontalScrollBarInset = Enum.ScrollBarInset.None
 	TabButtonsHolder.AutomaticCanvasSize = Enum.AutomaticSize.X
 	TabButtonsHolder.CanvasSize = UDim2.fromScale(0, 0)
 	TabButtonsHolder.ClipsDescendants = false
