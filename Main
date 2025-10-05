@@ -118,8 +118,10 @@ function ApplyStyleTo(Element, Style)
 			local SpecificData = StyleData[Object.Name] or StyleData["_default"] or {}
 			for Property, Value in SpecificData do
 				if Object[Property] then
-					warn(Object.Name.. ": "..Property.. " : ("..Value..")")
-					Object[Property] = Value
+					warn(Object.Name.. ": "..Property)
+					pcall(function()
+						Object[Property] = Value
+					end)
 				end
 			end
 		end
@@ -274,7 +276,7 @@ function Methods:CreateTab(TabData: {})
 	
 	InsanityCore.CurrentTabs[TabData["Identifier"]] = {["TabButton"] = TabButton, ["TabFrame"] = TabFrame}	
 	
-	ApplyStyleTo(Gui, InsanityCore.InstanceStyle)
+	ApplyStyleTo(TabButtonsHolder, InsanityCore.InstanceStyle)
 	
 	--local TabFrame = New("Frame")
 	local TabMethods = {}
