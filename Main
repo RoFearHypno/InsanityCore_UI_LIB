@@ -118,7 +118,7 @@ function ApplyStyleTo(Element, Style)
 			local SpecificData = StyleData[Object.Name] or StyleData["_default"] or {}
 			for Property, Value in SpecificData do
 				if Object[Property] then
-					warn(Property)
+					warn(Object.Name.. ": "..Property)
 					Object[Property] = Value
 				end
 			end
